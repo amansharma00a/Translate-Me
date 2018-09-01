@@ -1,36 +1,84 @@
-# Translate-Me
+[![Build Status](https://api.travis-ci.org/OpenNMT/OpenNMT.svg?branch=master)](https://travis-ci.org/OpenNMT/OpenNMT) [![codecov](https://codecov.io/gh/OpenNMT/OpenNMT/branch/master/graph/badge.svg)](https://codecov.io/gh/OpenNMT/OpenNMT)
 
-Working with Co-founder of TranslateMe Ryan Llyod to create language translation
-(like GOOGLE) that support on multiGPU system (presently working on Lua). Neural
-Machine translation is the latest in translation. This existing model works very well
-but it depends heavily on data to be fed into the system. This Project is live and
-hosted on the URL: http://139.59.34.103:3000/
-presently working on one million dataset (ENGLISH TO FRENCH)
+# OpenNMT: Open-Source Neural Machine Translation
 
------------------------------------------------------------------------
-• Human real-time input will be rewarded in tokens, this will form a basic working
-relationship between the platform and contributors.
-The Problem
-Translation projects around the world are racing to build the best solution and centralize the service. Holding ransom to the technology and charging the end user excessively. Each platform investing in one entity and not sharing the resources to make a better solution for all.
-The Solution
-TranslateMe reduces costs with blockchain and builds a ecosystem for all that’s built by all, this means all contributions are pooled to a single point of success and the efforts are not divided but united. Distribution of work and wealth the way it should be.
+[OpenNMT](http://opennmt.net/) is a full-featured, open-source (MIT) neural machine translation system utilizing the [Torch](http://torch.ch) mathematical toolkit.
 
-1.Neural Machine Translation
-Neural Machine translation is the latest in translation. This existing model works very well but it depends heavily on data to be fed into the system.
+<center style="padding: 40px"><img width="70%" src="http://opennmt.github.io/simple-attn.png" /></center>
 
-2.Human Input
-Human real-time input will be rewarded in tokens, this will form a basic working relationship between the platform and contributors.
+The system is designed to be simple to use and easy to extend, while
+maintaining efficiency and state-of-the-art translation
+accuracy. Features include:
 
-3.Advanced API
-The API will be crucial for third party integration and human input. Our API will plugin into any platform that requires real time translation.
+* Speed and memory optimizations for high-performance GPU training.
+* Simple general-purpose interface, only requires and source/target data files.
+* [C++ implementation of the translator](https://github.com/OpenNMT/CTranslate) for easy deployment.
+* Extensions to allow other sequence generation tasks such as summarization and image captioning.
 
-4.Distributed Computing
-Decentralised network costs less and is highly secure. Distributed computing for server-side computation and translation requests
+## Installation
 
-5.Token Reward Mining Algorithm
-The reward for this work done will remain with a mining algorithm that will pay the user for their support of the network and their contribution to evolving neural machine translation.
+OpenNMT only requires a Torch installation with few dependencies.
 
-6.Blockchain Savings
-The translation industry is worth an estimated 44 billion dollars year, with the cost of translation being so high currently many innovators and solutions in the market that integrate translation have to fit a large bill.
- bill.
- 
+1. [Install Torch](http://torch.ch/docs/getting-started.html)
+2. Install additional packages:
+
+```bash
+luarocks install tds
+luarocks install bit32 # if using LuaJIT
+```
+
+For other installation methods including Docker, visit the [documentation](http://opennmt.net/OpenNMT/installation/).
+
+## Quickstart
+
+OpenNMT consists of three commands:
+
+1) Preprocess the data.
+
+```
+th preprocess.lua -train_src data/src-train.txt -train_tgt data/tgt-train.txt -valid_src data/src-val.txt -valid_tgt data/tgt-val.txt -save_data data/demo
+```
+
+2) Train the model.
+
+```
+th train.lua -data data/demo-train.t7 -save_model model
+```
+
+3) Translate sentences.
+
+```
+th translate.lua -model model_final.t7 -src data/src-test.txt -output pred.txt
+```
+
+For more details, visit the [documentation](http://opennmt.net/OpenNMT/).
+
+## Citation
+
+A [technical report](https://arxiv.org/abs/1701.02810) on OpenNMT is available. If you use the system for academic work, please cite:
+
+```
+@ARTICLE{2017opennmt,
+  author = {{Klein}, G. and {Kim}, Y. and {Deng}, Y. and {Senellart}, J. and {Rush}, A.~M.},
+  title = "{OpenNMT: Open-Source Toolkit for Neural Machine Translation}",
+  journal = {ArXiv e-prints},
+  eprint = {1701.02810}
+}
+```
+
+## Acknowledgments
+
+Our implementation utilizes code from the following:
+
+* [Andrej Karpathy's char-rnn repo](https://github.com/karpathy/char-rnn)
+* [Wojciech Zaremba's lstm repo](https://github.com/wojzaremba/lstm)
+* [Element rnn library](https://github.com/Element-Research/rnn)
+
+## Additional resources
+
+* [Documentation](http://opennmt.net/OpenNMT)
+* [Example models](http://opennmt.net/Models)
+* [Forum](http://forum.opennmt.net)
+* [Gitter channel](https://gitter.im/OpenNMT/openmt)
+* [Live demo](https://demo-pnmt.systran.net)
+* [Bibliography](http://opennmt.net/about)
